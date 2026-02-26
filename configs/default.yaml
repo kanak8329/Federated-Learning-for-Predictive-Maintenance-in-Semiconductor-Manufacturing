@@ -1,0 +1,72 @@
+# ============================================================
+# Federated Learning — Semiconductor Predictive Maintenance
+# Master Configuration
+# ============================================================
+
+experiment:
+  name: "fl_semiconductor_baseline"
+  seed: 42
+  device: "auto"                # auto | cpu | cuda
+
+# ── Data ────────────────────────────────────────────────────
+data:
+  raw_dir: "data"
+  clean_csv: "data/secom_clean.csv"
+  window_dir: "data/windows"
+  client_dir: "data/windows/clients"
+  seq_len: 10
+  test_size: 0.2
+  n_clients: 3
+
+  # Non-IID simulation (Phase 2)
+  noniid:
+    enabled: false
+    strategy: "dirichlet"       # dirichlet | label_skew | quantity_skew
+    alpha: 0.5                  # lower = more heterogeneous
+
+# ── Model ───────────────────────────────────────────────────
+model:
+  type: "lstm"                  # lstm | attention_lstm | transformer
+  hidden_size: 128
+  n_layers: 2
+  dropout: 0.2
+  # Transformer-specific
+  n_heads: 4
+  ff_dim: 256
+
+# ── Training ────────────────────────────────────────────────
+training:
+  epochs: 15                    # centralized epochs
+  batch_size: 64
+  learning_rate: 0.001
+  optimizer: "adam"
+
+# ── Federated Learning ──────────────────────────────────────
+federated:
+  strategy: "fedavg"            # fedavg | fedprox | fednova
+  rounds: 5
+  local_epochs: 1
+  # FedProx-specific
+  mu: 0.01                     # proximal term weight
+
+  # Differential Privacy (Phase 3)
+  dp:
+    enabled: false
+    noise_multiplier: 1.0
+    max_grad_norm: 1.0
+    target_epsilon: 10.0
+    target_delta: 1e-5
+
+# ── Anomaly Detection (Phase 4) ────────────────────────────
+anomaly:
+  enabled: false
+  latent_dim: 32
+  threshold_percentile: 95
+  epochs: 20
+
+# ── Output ──────────────────────────────────────────────────
+output:
+  results_dir: "results"
+  plots_dir: "results/plots"
+  models_dir: "results/models"
+  logs_dir: "results/logs"

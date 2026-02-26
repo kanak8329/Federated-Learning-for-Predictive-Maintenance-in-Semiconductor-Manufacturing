@@ -1,0 +1,6 @@
+# .mailmap — Maps old git author info to anonymized names
+# This overrides author names displayed in `git log`, `git blame`, etc.
+# Format: New Name <new-email> Old Name <old-email>
+
+FL Research Team <research@fl-semiconductor.dev> kanak chouksey <143768260+kanak8329@users.noreply.github.com>
+FL Research Team <research@fl-semiconductor.dev> Kanak Chouksey <kanak8329kanak@gmail.com>

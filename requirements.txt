@@ -4,3 +4,7 @@ scikit-learn
 torch
 matplotlib
 tqdm
+pyyaml
+streamlit
+plotly
+seaborn
